@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-    <h1>Last 100 Requests</h1>
+    <h1>Last requests</h1>
     <table>
         <tr>
             <th>Timestamp</th>
@@ -20,7 +20,7 @@
         </tr>
         {% for req in requests %}
         <tr>
-            <td>{{ req.timestamp }}</td>
+            <td><a href="/requests/{{ req.req_id }}">{{ req.timestamp }}</a></td>
             <td>{{ req.method }}</td>
             <td>{{ req.path }}</td>
             <td>{{ req.client.host }}</td>

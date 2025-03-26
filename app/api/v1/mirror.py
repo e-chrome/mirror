@@ -18,6 +18,12 @@ async def home(request: Request, _=Depends(verify_token)):
     return request.app.state.templates.TemplateResponse('home.html', {'request': request, 'requests': reqs})
 
 
+@router.get('/requests/{req_id}')
+async def read_request(request: Request, req_id: str):
+    request_data = request.app.state.request_history.get(req_id)
+    return JSONResponse(content=request_data)
+
+
 @router.api_route('/{path:path}', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'])
 async def mirror(request: Request, path: str, _=Depends(verify_token)):
     try:
@@ -25,9 +31,9 @@ async def mirror(request: Request, path: str, _=Depends(verify_token)):
         body_text = body.decode('utf-8')
     except UnicodeDecodeError:
         body_text = '[binary data]'
-    req_uuid = str(uuid.uuid4())
+    req_id = str(uuid.uuid4())
     request_data = {
-        'uuid': req_uuid,
+        'req_id': req_id,
         'timestamp': datetime.now().isoformat(),
         'method': request.method,
         'path': path,
@@ -46,7 +52,7 @@ async def mirror(request: Request, path: str, _=Depends(verify_token)):
         },
     }
 
-    request.app.state.request_history[req_uuid] = request_data
+    request.app.state.request_history[req_id] = request_data
     logging.info(f'New request: {request.method} {path}')
 
     return JSONResponse(content=request_data)
