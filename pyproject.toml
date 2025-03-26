@@ -1,0 +1,70 @@
+[tool.pdm]
+[project]
+name = "common_parser"
+version = "3.6.1"
+description = "Общий парсер"
+authors = [
+    {name = "Evgeny Khromov", email = "evgeny.khromov@sbermegamarket.ru"},
+]
+dependencies = [
+    "pydantic==2.1.1",
+    "pydantic-settings==2.0.0",
+    "fastapi==0.115.12",
+    "uvicorn==0.34.0",
+    "Jinja2==3.1.6",
+]
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "isort==5.12.0",
+    "pytest==7.3.1",
+    "blue==0.9.1",
+    "Flake8-pyproject==0.9.1",
+    "pytest-asyncio==0.21.0",
+    "pytest-cov==4.0.0",
+    "pre-commit>=3.3.3"
+]
+
+[[tool.pdm.source]]
+url = "http://nexus.prod.lan/repository/pypi-repo-hosted/simple/"
+verify_ssl = false
+name = "nexus"
+
+[tool.pdm.scripts]
+_.env_file = ".env"
+pytest = "pytest"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.blue]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.flake8]
+ignore = ["W291", "E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "docs",
+    "build",
+    "dist",
+    ".venv",
+    "venv",
+    "__pypackages__"
+]
+max-line-length = 120
+count = true
+per-file-ignores = "__init__.py: F401"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.pdm.resolution]
+respect-source-order = true

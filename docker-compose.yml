@@ -1,0 +1,13 @@
+version: "3.10"
+
+services:
+  worker:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    deploy:
+      replicas: 1
+    env_file:
+      - .env
