@@ -10,7 +10,7 @@ from app.middleware import verify_token
 router = APIRouter()
 
 
-@router.get('/home', response_class=HTMLResponse)
+@router.get('/history', response_class=HTMLResponse)
 async def home(request: Request, _=Depends(verify_token)):
     reqs = [
         r for r in reversed(request.app.state.request_history.values()) if r['client']['host'] == request.client.host

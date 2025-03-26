@@ -1,13 +1,12 @@
 version: "3.10"
-
 services:
-  worker:
-    restart: always
+  service:
     build:
       context: .
       dockerfile: Dockerfile
-      target: worker
-    deploy:
-      replicas: 1
+      target: runner
+    restart: always
     env_file:
       - .env
+    ports:
+      - "8000:8000"

@@ -42,4 +42,4 @@ COPY --from=builder /opt/app/__pypackages__/3.11/lib /opt/app/pkgs
 WORKDIR /opt/app
 COPY . .
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python", "main.py"]
