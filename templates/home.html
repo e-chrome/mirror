@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request History</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Last 100 Requests</h1>
+    <table>
+        <tr>
+            <th>Timestamp</th>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Client IP</th>
+            <th>User Agent</th>
+        </tr>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req.timestamp }}</td>
+            <td>{{ req.method }}</td>
+            <td>{{ req.path }}</td>
+            <td>{{ req.client.host }}</td>
+            <td>{{ req.fingerprint.user_agent }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

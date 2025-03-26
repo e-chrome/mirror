@@ -1,10 +1,10 @@
 [tool.pdm]
 [project]
-name = "common_parser"
-version = "3.6.1"
-description = "Общий парсер"
+name = "mirror"
+version = "0.0.1"
+description = "Сервис-зеркало"
 authors = [
-    {name = "Evgeny Khromov", email = "evgeny.khromov@sbermegamarket.ru"},
+    {name = "EX", email = "ex.codding@gmail.com"},
 ]
 dependencies = [
     "pydantic==2.1.1",
@@ -12,8 +12,9 @@ dependencies = [
     "fastapi==0.115.12",
     "uvicorn==0.34.0",
     "Jinja2==3.1.6",
+    "toml==0.10.2",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = {text = "MIT"}
 
 [tool.pdm.dev-dependencies]
@@ -24,13 +25,8 @@ dev = [
     "Flake8-pyproject==0.9.1",
     "pytest-asyncio==0.21.0",
     "pytest-cov==4.0.0",
-    "pre-commit>=3.3.3"
+    "pre-commit>=3.3.3",
 ]
-
-[[tool.pdm.source]]
-url = "http://nexus.prod.lan/repository/pypi-repo-hosted/simple/"
-verify_ssl = false
-name = "nexus"
 
 [tool.pdm.scripts]
 _.env_file = ".env"
