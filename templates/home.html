@@ -14,6 +14,7 @@
     <table>
         <tr>
             <th>Timestamp</th>
+            <th>Host</th>
             <th>Method</th>
             <th>Path</th>
             <th>Client IP</th>
@@ -22,10 +23,11 @@
         {% for req in requests %}
         <tr>
             <td><a href="/requests/{{ req.req_id }}">{{ req.timestamp }}</a></td>
+            <td>{{ req.headers.get('host', 'Неизвестный Host') }}</td>
             <td>{{ req.method }}</td>
             <td>{{ req.path }}</td>
             <td>{{ req.client.host }}</td>
-            <td>{{ req.fingerprint.user_agent }}</td>
+            <td>{{ req.headers.get('user-agent', 'Неизвестный User-Agent') }}</td>
         </tr>
         {% endfor %}
     </table>

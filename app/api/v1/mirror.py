@@ -12,9 +12,7 @@ router = APIRouter()
 
 @router.get('/history', response_class=HTMLResponse)
 async def home(request: Request, _=Depends(verify_token)):
-    reqs = [
-        r for r in reversed(request.app.state.request_history.values()) if r['client']['host'] == request.client.host
-    ]
+    reqs = [r for r in reversed(request.app.state.request_history.values())]
     return request.app.state.templates.TemplateResponse('home.html', {'request': request, 'requests': reqs})
 
 
@@ -46,10 +44,6 @@ async def mirror(request: Request, path: str, _=Depends(verify_token)):
             'port': request.client.port,
         },
         'body': body_text,
-        'fingerprint': {
-            'ip': request.client.host,
-            'user_agent': request.headers.get('user-agent', ''),
-        },
     }
 
     request.app.state.request_history[req_id] = request_data
