@@ -1,4 +1,5 @@
 import logging
+import uuid
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, Request
@@ -10,10 +11,11 @@ router = APIRouter()
 
 
 @router.get('/home', response_class=HTMLResponse)
-async def web_interface(request: Request, _=Depends(verify_token)):
-    return request.app.state.templates.TemplateResponse(
-        'home.html', {'request': request, 'requests': list(reversed(request.app.state.request_history))}
-    )
+async def home(request: Request, _=Depends(verify_token)):
+    reqs = [
+        r for r in reversed(request.app.state.request_history.values()) if r['client']['host'] == request.client.host
+    ]
+    return request.app.state.templates.TemplateResponse('home.html', {'request': request, 'requests': reqs})
 
 
 @router.api_route('/{path:path}', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'])
@@ -23,8 +25,9 @@ async def mirror(request: Request, path: str, _=Depends(verify_token)):
         body_text = body.decode('utf-8')
     except UnicodeDecodeError:
         body_text = '[binary data]'
-
+    req_uuid = str(uuid.uuid4())
     request_data = {
+        'uuid': req_uuid,
         'timestamp': datetime.now().isoformat(),
         'method': request.method,
         'path': path,
@@ -43,7 +46,7 @@ async def mirror(request: Request, path: str, _=Depends(verify_token)):
         },
     }
 
-    request.app.state.request_history.append(request_data)
+    request.app.state.request_history[req_uuid] = request_data
     logging.info(f'New request: {request.method} {path}')
 
     return JSONResponse(content=request_data)
