@@ -1,5 +1,4 @@
-ARG DOCKER_PROXY=harbor.megamarket.tech/docker.io
-FROM ${DOCKER_PROXY}/python:3.11-slim-bookworm as builder
+FROM python:3.11-slim-bookworm as builder
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONBUFFERED=1 \
@@ -32,7 +31,7 @@ RUN pdm install --dev
 
 CMD ["python"]
 
-FROM ${DOCKER_PROXY}/python:3.11-slim-bookworm as runner
+FROM python:3.11-slim-bookworm as runner
 
 ENV TZ=Europe/Moscow \
     PYTHONPATH=/opt/app/pkgs
