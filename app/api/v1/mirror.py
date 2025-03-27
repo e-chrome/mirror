@@ -45,8 +45,8 @@ async def mirror(request: Request, path: str, _=Depends(verify_token)):
         },
         'body': body_text,
     }
-
-    request.app.state.request_history[req_id] = request_data
+    if path != 'favicon.ico':
+        request.app.state.request_history[req_id] = request_data
     logging.info(f'New request: {request.method} {path}')
 
     return JSONResponse(content=request_data)
